@@ -44,7 +44,7 @@ Route::middleware('auth', 'can:admin')->group(function () {
     // Supprimer une categorie
     Route::post('/admin/category/delete/{id}', [CategoryController::class, 'delete'])->name('admin.category.delete');
 
-    // Afficher les categories
+    // Afficher les utilisateurs
     Route::get('/admin/users', [UsersAdminController::class, 'index'])->name('admin.users.index');
 
     Route::get('/admin/annonce', [AnnonceAdminController::class, 'index'])->name('admin.annonce.index');
@@ -59,6 +59,9 @@ Route::middleware('auth', 'can:admin')->group(function () {
 
     // Supprimer des annonces
     Route::get('/admin/annonce/delete/{id}', [AnnonceAdminController::class, 'delete'])->name('admin.annonce.delete');
+
+    // Voir une annonce
+    Route::get('/admin/annonce/show/{id}', [AnnonceAdminController::class, 'show'])->name('admin.annonce.show');
 
 });
 

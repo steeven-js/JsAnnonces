@@ -74,7 +74,14 @@ class AnnonceAdminController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // Voir une annonce
+        $showAnnonce = Annonces::findOrFail($id);
+
+        // dd($showAnnonce);
+
+        return view('admin.annonce.show', compact(
+            'showAnnonce',
+        ));
     }
 
     /**
