@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\Annonces;
+use App\Models\Categories;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Redirect;
 
 class AnnonceAdminController extends Controller
 {
@@ -13,6 +18,9 @@ class AnnonceAdminController extends Controller
     public function index()
     {
         //
+        $annonces = Annonces::All();
+
+        return view('admin.annonce.index', compact('annonces'));
     }
 
     /**
@@ -21,6 +29,14 @@ class AnnonceAdminController extends Controller
     public function create()
     {
         //
+        $annonce = Annonces::All();
+
+        $categories = Categories::orderBy('nom', 'asc')->get();
+
+        return view('admin.annonce.ajouter', compact(
+            'annonce',
+            'categories'
+        ));
     }
 
     /**
@@ -29,6 +45,28 @@ class AnnonceAdminController extends Controller
     public function store(Request $request)
     {
         //
+        // dd($request);
+
+        // création d'une instance de class (model Annonces) pour enregistrer en base .
+        $newAnnonce = new Annonces;
+
+        $newAnnonce->category_id = $request->category;
+
+        $newAnnonce->user_id =  Auth::user()->id;
+
+        $newAnnonce->nom = $request->nom;
+        $newAnnonce->description = $request->description;
+        $newAnnonce->prix = $request->prix;
+
+        // Traitement de l'upload de 'image
+        if ($request->file()) {
+            $fileName = $request->image->store('public/images/annonces');
+            $newAnnonce->image = $fileName;
+        }
+        // Enregistrement des données
+        $newAnnonce->save();
+
+        return Redirect::route('admin.annonce.index');
     }
 
     /**
@@ -45,6 +83,14 @@ class AnnonceAdminController extends Controller
     public function edit(string $id)
     {
         //
+        $editAnnonce = Annonces::findOrFail($id);
+
+        $categories = Categories::orderBy('nom', 'asc')->get();
+
+        return view('admin.annonce.ajouter', compact(
+            'editAnnonce',
+            'categories'
+        ));
     }
 
     /**
@@ -53,13 +99,41 @@ class AnnonceAdminController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $editAnnonce = Annonces::findOrFail($id);
+
+        $editAnnonce->category_id = $request->category;
+
+        $editAnnonce->user_id = Auth::user()->id;
+
+        $editAnnonce->nom = $request->nom;
+        $editAnnonce->description = $request->description;
+        $editAnnonce->prix = $request->prix;
+
+        // Traitement de l'upload de 'image
+        if ($request->file()) {
+
+            if ($editAnnonce->image != '') {
+                Storage::delete($editAnnonce->image);
+            }
+
+            $fileName = $request->image->store('public/images/annonces');
+            $editAnnonce->image = $fileName;
+        }
+
+        $editAnnonce->save();
+        return Redirect::route('admin.annonce.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function delete(string $id)
     {
         //
+        $deleteAnnonce = Annonces::findOrFail($id);
+
+        $deleteAnnonce->delete();
+
+        return redirect(route('admin.annonce.index'));
     }
 }
