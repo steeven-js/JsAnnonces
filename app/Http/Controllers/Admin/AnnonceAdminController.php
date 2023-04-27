@@ -18,7 +18,7 @@ class AnnonceAdminController extends Controller
     public function index()
     {
         //
-        $annonces = Annonces::All();
+        $annonces = Annonces::orderBy('updated_at', 'DESC')->paginate(5);
 
         return view('admin.annonce.index', compact('annonces'));
     }
