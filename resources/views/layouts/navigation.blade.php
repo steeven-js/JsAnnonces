@@ -18,9 +18,6 @@
                     >
                         {{ __("Dashboard") }}
                     </x-nav-link> --}}
-                    <x-nav-link :href="route('annonce.index')" :active="request()->routeIs('annonce.index')">
-                        {{ __('Annonces') }}
-                    </x-nav-link>
                     <x-nav-link :href="route('account.index')" :active="request()->routeIs('account.index')">
                         {{ __('Mon compte') }}
                     </x-nav-link>

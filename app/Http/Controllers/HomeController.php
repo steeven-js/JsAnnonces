@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Annonces;
+use App\Models\Categories;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -12,7 +14,14 @@ class HomeController extends Controller
     public function index()
     {
         //
-        return view('home');
+        $categories = Categories::All();
+
+        $annonces = Annonces::orderBy('updated_at', 'DESC')->paginate(8);
+
+        return view('home', Compact(
+            'categories',
+            'annonces',
+        ));
     }
 
     /**
@@ -34,9 +43,24 @@ class HomeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id = 0)
     {
         //
+        $categories = Categories::All();
+
+        if ($id == 0) {
+
+            $annonces = Annonces::orderBy('updated_at', 'DESC')->get();
+
+        }else {
+          //  dd($id) ;
+            $annonces = Annonces::where('category_id', $id)->orderBy('updated_at', 'DESC')->paginate(5);
+        }
+
+        return view('home', Compact(
+            'annonces',
+            'categories',
+        ));
     }
 
     /**

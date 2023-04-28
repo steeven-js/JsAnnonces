@@ -3,11 +3,11 @@
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             <p
                 class="mb-4 text-xl font-extrabold leading-none tracking-tight text-gray-700 md:text-2xl lg:text-3xl dark:text-gray-400">
-                {{ !empty($editAnnonce) ? 'Modifier' : 'Ajouter' }} une annonce</p>
+                {{ !empty($editUserAnnonce) ? 'Modifier' : 'Ajouter' }} une annonce</p>
             <form
-                action="{{ !empty($editAnnonce) ? route('admin.annonce.edit', $editAnnonce->id) : route('admin.annonce.ajouter') }}"
+                action="{{ !empty($editUserAnnonce) ? route('account.annonce.edit', $editUserAnnonce->id) : route('account.annonce.ajouter') }}"
                 method="POST" enctype="multipart/form-data">
-                {{-- !empty($editAnnonce) ? route('admin.annonce.edit', $annonce->id) : route('admin.annonce.ajouter') --}}
+                {{-- !empty($editUserAnnonce) ? route('account.annonce.edit', $annonce->id) : route('account.annonce.ajouter') --}}
                 @csrf
 
                 <div class="mb-5">
@@ -15,7 +15,7 @@
                         Titre
                     </label>
                     <input type="text" name="nom" placeholder="Saisissez un nom"
-                        value="{{ !empty($editAnnonce) ? $editAnnonce->nom : '' }}"
+                        value="{{ !empty($editUserAnnonce) ? $editUserAnnonce->nom : '' }}"
                         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
                 </div>
 
@@ -26,7 +26,7 @@
                 <select name="category"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     @forelse ($categories as $itemCategory)
-                        @if (!empty($editAnnonce) && $itemCategory->id == $editAnnonce->category->id)
+                        @if (!empty($editUserAnnonce) && $itemCategory->id == $editUserAnnonce->category->id)
                             <option value="{{ $itemCategory->id }}" selected>{{ $itemCategory->nom }}</option>
                         @else
                             <option value="{{ $itemCategory->id }}">{{ $itemCategory->nom }}</option>
@@ -62,7 +62,7 @@
                         Prix
                     </label>
                     <input type="text" name="prix" placeholder="Saisissez un prix"
-                        value="{{ !empty($editAnnonce) ? $editAnnonce->prix : '' }}"
+                        value="{{ !empty($editUserAnnonce) ? $editUserAnnonce->prix : '' }}"
                         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
                 </div>
                 <div class="mt-3">

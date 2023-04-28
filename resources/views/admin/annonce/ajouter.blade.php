@@ -1,6 +1,4 @@
-@extends('layouts.admin')
-
-@section('main')
+<x-app-layout>
     <form
         action="{{ !empty($editAnnonce) ? route('admin.annonce.edit', $editAnnonce->id) : route('admin.annonce.ajouter') }}"
         method="POST" enctype="multipart/form-data">
@@ -67,4 +65,4 @@
         </div>
         {{-- @dd($categories) --}}
     </form>
-@endsection
+</x-app-layout>

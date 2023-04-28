@@ -29,6 +29,9 @@ Route::get('/annonces', [AnnonceController::class, 'index'])->name('annonce.inde
 // Affiche les détails d'une annonce
 Route::get('/annonce/details/{id}', [AnnonceController::class, 'show'])->name('annonce.show');
 
+// Filtre les annonces par catégories
+Route::get('/home/category/tri/{id}', [HomeController::class, 'show'])->name('home.tri');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -43,6 +46,12 @@ Route::middleware('auth')->group(function () {
     // Modifier des annonces
     Route::get('/profile/annonce/edit/{id}', [UserAnnonceController::class, 'edit'])->name('account.annonce.edit'); //Je récupère
     Route::post('/profile/annonce/edit/{id}', [UserAnnonceController::class, 'update'])->name('account.annonce.edit'); //Je met à jour
+
+    // Supprimer des annonces
+    Route::get('/profile/annonce/delete/{id}', [UserAnnonceController::class, 'delete'])->name('account.annonce.delete');
+
+    // Voir une annonce
+    Route::get('/profile/annonce/show/{id}', [UserAnnonceController::class, 'show'])->name('account.annonce.show');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

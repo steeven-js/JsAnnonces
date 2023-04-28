@@ -48,25 +48,25 @@ class UserAnnonceController extends Controller
         // dd($request);
 
         // création d'une instance de class (model Annonces) pour enregistrer en base .
-        $newAnnonce = new Annonces;
+        $newUserAnnonce = new Annonces;
 
-        $newAnnonce->category_id = $request->category;
+        $newUserAnnonce->category_id = $request->category;
 
-        $newAnnonce->user_id =  Auth::user()->id;
+        $newUserAnnonce->user_id =  Auth::user()->id;
 
-        $newAnnonce->nom = $request->nom;
-        $newAnnonce->description = $request->description;
-        $newAnnonce->prix = $request->prix;
+        $newUserAnnonce->nom = $request->nom;
+        $newUserAnnonce->description = $request->description;
+        $newUserAnnonce->prix = $request->prix;
 
         // Traitement de l'upload de 'image
         if ($request->file()) {
             $fileName = $request->image->store('public/images/annonces');
-            $newAnnonce->image = $fileName;
+            $newUserAnnonce->image = $fileName;
         }
         // Enregistrement des données
-        $newAnnonce->save();
+        $newUserAnnonce->save();
 
-        return Redirect::route('account.annonce.index');
+        return Redirect::route('account.index');
     }
 
     /**
@@ -75,12 +75,12 @@ class UserAnnonceController extends Controller
     public function show(string $id)
     {
         // Voir une annonce
-        $showAnnonce = Annonces::findOrFail($id);
+        $showUserAnnonce = Annonces::findOrFail($id);
 
-        // dd($showAnnonce);
+        // dd($showUserAnnonce);
 
         return view('account.annonce.show', compact(
-            'showAnnonce',
+            'showUserAnnonce',
         ));
     }
 
@@ -90,12 +90,12 @@ class UserAnnonceController extends Controller
     public function edit(string $id)
     {
         //
-        $editAnnonce = Annonces::findOrFail($id);
+        $editUserAnnonce = Annonces::findOrFail($id);
 
         $categories = Categories::orderBy('nom', 'asc')->get();
 
         return view('account.annonce.ajouter', compact(
-            'editAnnonce',
+            'editUserAnnonce',
             'categories'
         ));
     }
@@ -106,36 +106,41 @@ class UserAnnonceController extends Controller
     public function update(Request $request, string $id)
     {
         //
-        $editAnnonce = Annonces::findOrFail($id);
+        $editUserAnnonce = Annonces::findOrFail($id);
 
-        $editAnnonce->category_id = $request->category;
+        $editUserAnnonce->category_id = $request->category;
 
-        $editAnnonce->user_id = Auth::user()->id;
+        $editUserAnnonce->user_id = Auth::user()->id;
 
-        $editAnnonce->nom = $request->nom;
-        $editAnnonce->description = $request->description;
-        $editAnnonce->prix = $request->prix;
+        $editUserAnnonce->nom = $request->nom;
+        $editUserAnnonce->description = $request->description;
+        $editUserAnnonce->prix = $request->prix;
 
         // Traitement de l'upload de 'image
         if ($request->file()) {
 
-            if ($editAnnonce->image != '') {
-                Storage::delete($editAnnonce->image);
+            if ($editUserAnnonce->image != '') {
+                Storage::delete($editUserAnnonce->image);
             }
 
             $fileName = $request->image->store('public/images/annonces');
-            $editAnnonce->image = $fileName;
+            $editUserAnnonce->image = $fileName;
         }
 
-        $editAnnonce->save();
-        return Redirect::route('account.annonce.index');
+        $editUserAnnonce->save();
+        return Redirect::route('account.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function delete(string $id)
     {
-        //
+        // Supprimer une annonce
+        $deleteAnnonce = Annonces::findOrFail($id);
+
+        $deleteAnnonce->delete();
+
+        return redirect(route('account.annonce.index'));
     }
 }
