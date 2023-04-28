@@ -37,11 +37,14 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile/annonce', [UserAnnonceController::class, 'index'])->name('account.index');
+    Route::get('/profile/account', [UserAnnonceController::class, 'index'])->name('account.index');
+
+    // Afficher les annonces d'un utilisateur
+    Route::get('/profile/annonce/list', [UserAnnonceController::class, 'list'])->name('account.annonce.list');
 
     // Ajouter des annonces
-    Route::get('/profile/annonce/ajouter', [UserAnnonceController::class, 'create'])->name('account.annonce.ajouter'); //Je créer
-    Route::post('/profile/annonce/ajouter', [UserAnnonceController::class, 'store'])->name('account.annonce.ajouter'); // j'enregistre
+    Route::get('/profile/annonce/add', [UserAnnonceController::class, 'create'])->name('account.annonce.ajouter'); //Je créer
+    Route::post('/profile/annonce/add', [UserAnnonceController::class, 'store'])->name('account.annonce.ajouter'); // j'enregistre
 
     // Modifier des annonces
     Route::get('/profile/annonce/edit/{id}', [UserAnnonceController::class, 'edit'])->name('account.annonce.edit'); //Je récupère
@@ -68,7 +71,7 @@ Route::middleware('auth', 'can:admin')->group(function () {
     // editer une categorie
     Route::post('/admin/category/edit/{id}', [CategoryController::class, 'edit'])->name('admin.category.edit');
     // Supprimer une categorie
-    Route::post('/admin/category/delete/{id}', [CategoryController::class, 'delete'])->name('admin.category.delete');
+    Route::post('/admin/category/del/{id}', [CategoryController::class, 'delete'])->name('admin.category.delete');
 
     // Afficher les utilisateurs
     Route::get('/admin/users', [UsersAdminController::class, 'index'])->name('admin.users.index');
@@ -76,15 +79,15 @@ Route::middleware('auth', 'can:admin')->group(function () {
     Route::get('/admin/annonce', [AnnonceAdminController::class, 'index'])->name('admin.annonce.index');
 
     // Ajouter des annonces
-    Route::get('/admin/annonce/ajouter', [AnnonceAdminController::class, 'create'])->name('admin.annonce.ajouter'); //Je créer
-    Route::post('/admin/annonce/ajouter', [AnnonceAdminController::class, 'store'])->name('admin.annonce.ajouter'); // j'enregistre
+    Route::get('/admin/annonce/add', [AnnonceAdminController::class, 'create'])->name('admin.annonce.ajouter'); //Je créer
+    Route::post('/admin/annonce/add', [AnnonceAdminController::class, 'store'])->name('admin.annonce.ajouter'); // j'enregistre
 
     // Modifier des annonces
     Route::get('/admin/annonce/edit/{id}', [AnnonceAdminController::class, 'edit'])->name('admin.annonce.edit'); //Je récupère
     Route::post('/admin/annonce/edit/{id}', [AnnonceAdminController::class, 'update'])->name('admin.annonce.edit'); //Je met à jour
 
     // Supprimer des annonces
-    Route::get('/admin/annonce/delete/{id}', [AnnonceAdminController::class, 'delete'])->name('admin.annonce.delete');
+    Route::get('/admin/annonce/del/{id}', [AnnonceAdminController::class, 'delete'])->name('admin.annonce.delete');
 
     // Voir une annonce
     Route::get('/admin/annonce/show/{id}', [AnnonceAdminController::class, 'show'])->name('admin.annonce.show');

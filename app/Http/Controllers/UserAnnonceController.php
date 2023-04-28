@@ -22,6 +22,16 @@ class UserAnnonceController extends Controller
         return view('account.index', compact('userAnnonces'));
     }
 
+    /**
+     * Display a listing of the resource.
+     */
+    public function list()
+    {
+        $userId = auth()->id();
+        $userAnnonces = Annonces::where('user_id', $userId)->get();
+
+        return view('account.annonce.list', compact('userAnnonces'));
+    }
 
     /**
      * Show the form for creating a new resource.
