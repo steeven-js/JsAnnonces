@@ -62,7 +62,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth', 'can:admin')->group(function () {
-    Route::get('/admin', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin', [DashboardController::class, 'index'])->name('admin.home');
 
     // Afficher les categories
     Route::get('/admin/category', [CategoryController::class, 'index'])->name('admin.category.index');

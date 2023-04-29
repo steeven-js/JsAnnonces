@@ -1,17 +1,56 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+<!DOCTYPE html>
+<html lang="en">
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("You're logged in!") }}
-                </div>
-            </div>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    @vite('resources/css/app.css')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
+    <title>Document</title>
+</head>
+
+<body>
+    @include('layouts.admin.navbar')
+    @include('layouts.admin.sidebar')
+    
+    <div class="p-4 sm:ml-64 bg-gray-50 lg:ml-64 dark:bg-gray-900">
+        <div class="">
+            @yield('main')
         </div>
     </div>
-</x-app-layout>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+
+        if (sidebar) {
+            const toggleSidebarMobile = (sidebar, sidebarBackdrop, toggleSidebarMobileHamburger, toggleSidebarMobileClose) => {
+                sidebar.classList.toggle('hidden');
+                sidebarBackdrop.classList.toggle('hidden');
+                toggleSidebarMobileHamburger.classList.toggle('hidden');
+                toggleSidebarMobileClose.classList.toggle('hidden');
+            }
+            
+            const toggleSidebarMobileEl = document.getElementById('toggleSidebarMobile');
+            const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+            const toggleSidebarMobileHamburger = document.getElementById('toggleSidebarMobileHamburger');
+            const toggleSidebarMobileClose = document.getElementById('toggleSidebarMobileClose');
+            const toggleSidebarMobileSearch = document.getElementById('toggleSidebarMobileSearch');
+            
+            toggleSidebarMobileSearch.addEventListener('click', () => {
+                toggleSidebarMobile(sidebar, sidebarBackdrop, toggleSidebarMobileHamburger, toggleSidebarMobileClose);
+            });
+            
+            toggleSidebarMobileEl.addEventListener('click', () => {
+                toggleSidebarMobile(sidebar, sidebarBackdrop, toggleSidebarMobileHamburger, toggleSidebarMobileClose);
+            });
+            
+            sidebarBackdrop.addEventListener('click', () => {
+                toggleSidebarMobile(sidebar, sidebarBackdrop, toggleSidebarMobileHamburger, toggleSidebarMobileClose);
+            });
+        }
+    </script>
+</body>
+
+</html>
