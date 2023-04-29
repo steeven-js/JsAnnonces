@@ -33,7 +33,7 @@ class AnnonceAdminController extends Controller
 
         $categories = Categories::orderBy('nom', 'asc')->get();
 
-        return view('admin.annonce.ajouter', compact(
+        return view('admin.annonce.crud', compact(
             'annonce',
             'categories'
         ));
@@ -94,7 +94,7 @@ class AnnonceAdminController extends Controller
 
         $categories = Categories::orderBy('nom', 'asc')->get();
 
-        return view('admin.annonce.ajouter', compact(
+        return view('admin.annonce.crud', compact(
             'editAnnonce',
             'categories'
         ));
