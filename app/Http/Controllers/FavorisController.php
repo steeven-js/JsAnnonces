@@ -14,12 +14,12 @@ class FavorisController extends Controller
     public function index()
     {
         //Voir tous les favoris
-    
+
         $userId = auth()->id();
         $favoris = Favoris::where('user_id', $userId)->get();
-    
+
         $annonces = [];
-    
+
         foreach ($favoris as $favori) {
             $annonceId = $favori->annonce_id;
             $annonce = Annonces::findOrFail($annonceId);
@@ -27,9 +27,9 @@ class FavorisController extends Controller
         }
 
         // dd($annonces);
-            
-        return view('account.favoris.index', compact('annonces'));
-    }              
+
+        return view('account.favoris.index', compact('annonces', 'favoris'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -47,14 +47,24 @@ class FavorisController extends Controller
     {
         $annonce_id = $request->input('annonce_id');
         $user_id = auth()->id();
-    
-        $favoris = new Favoris;
-        $favoris->annonce_id = $annonce_id;
-        $favoris->user_id = $user_id;
 
-        dd($favoris);
-        // $favoris->save();
-    
+        // Vérifier si l'id de l'annonce existe déjà en base de données
+        $existingFavoris = Favoris::where('annonce_id', $annonce_id)->where('user_id', $user_id)->first();
+
+        if (!$existingFavoris) {
+            // L'id de l'annonce n'existe pas encore en base de données pour cet utilisateur, on peut l'ajouter
+            $favoris = new Favoris;
+            $favoris->annonce_id = $annonce_id;
+            $favoris->user_id = $user_id;
+
+            // dd($existingFavoris);
+            // $favoris->save();
+        } else {
+            // L'id de l'annonce existe déjà en base de données pour cet utilisateur, on ne peut pas l'ajouter à nouveau
+            // On peut éventuellement retourner un message d'erreur ou rediriger l'utilisateur
+            // dd($existingFavoris);
+        }
+
         return redirect()->route('home');
     }
 
@@ -85,15 +95,15 @@ class FavorisController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function delete(string $id)
+    public function delete($id)
     {
-        $favori = Favoris::find($id);
-    
-        if ($favori) {
-            $favori->delete();
-            return redirect()->back()->with('success', 'Favori supprimé avec succès.');
-        } else {
-            return redirect()->back()->with('error', 'Favori non trouvé.');
-        }
+
+        $deleteFavoris = Favoris::findOrFail($id);
+
+        // dd($deleteFavoris);
+
+        $deleteFavoris->delete();
+
+        return redirect()->route('account.favoris.list');
     }
 }

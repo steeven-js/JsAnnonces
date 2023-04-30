@@ -65,7 +65,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/favoris/add', [FavorisController::class, 'store'])->name('account.favoris.ajouter'); // j'enregistre
 
     // Supprimer des favoris
-    Route::get('/profile/favoris/delete/{id}', [UserAnnonceController::class, 'delete'])->name('account.favoris.delete');
+    Route::get('/profile/favoris/delete/{id}', [FavorisController::class, 'delete'])->name('account.favoris.delete');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
