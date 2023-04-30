@@ -14,7 +14,7 @@ class UsersAdminController extends Controller
     public function index()
     {
         //
-        $users = User::all();
+        $users = User::orderBy('updated_at', 'DESC')->paginate(10);
 
         // dd($users);
 

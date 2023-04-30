@@ -108,6 +108,7 @@
             </div>
         </div>
     </div>
+    
     <div class="flex flex-col">
         <div class="overflow-x-auto">
             <div class="inline-block min-w-full align-middle">
@@ -195,7 +196,7 @@
                                             </svg>
                                         </a>
                                         <a
-                                            href="{{ route('admin.annonce.ajouter', ['id' => $annonce->id]) }}"class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                            href="{{ route('admin.annonce.edit', ['id' => $annonce->id]) }}"class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path
@@ -206,7 +207,6 @@
                                                     clip-rule="evenodd"></path>
                                             </svg>
                                         </a>
-                                        </button>
                                         <!-- Modal toggle -->
                                             <button id="deleteButton" data-modal-toggle="deleteModal"
                                             class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900"
