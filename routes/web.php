@@ -3,12 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AnnonceController;
+use App\Http\Controllers\FavorisController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserAnnonceController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UsersAdminController;
 use App\Http\Controllers\Admin\AnnonceAdminController;
-use App\Http\Controllers\UserAnnonceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +57,16 @@ Route::middleware('auth')->group(function () {
     // Voir une annonce
     Route::get('/profile/annonce/show/{id}', [UserAnnonceController::class, 'show'])->name('account.annonce.show');
 
+    // Voir un favoris
+    Route::get('/profile/annonce/user/favoris', [FavorisController::class, 'index'])->name('account.favoris.list');
+
+    // Ajouter des favoris
+    Route::get('/profile/favoris/add', [FavorisController::class, 'create'])->name('account.favoris.ajouter'); //Je créer
+    Route::post('/profile/favoris/add', [FavorisController::class, 'store'])->name('account.favoris.ajouter'); // j'enregistre
+
+    // Supprimer des favoris
+    Route::get('/profile/favoris/delete/{id}', [UserAnnonceController::class, 'delete'])->name('account.favoris.delete');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -73,9 +84,6 @@ Route::middleware('auth', 'can:admin')->group(function () {
     // Supprimer une categorie
     Route::post('/admin/category/del/{id}', [CategoryController::class, 'delete'])->name('admin.category.delete');
 
-    // Afficher les utilisateurs
-    Route::get('/admin/users', [UsersAdminController::class, 'index'])->name('admin.users.index');
-
     Route::get('/admin/annonce', [AnnonceAdminController::class, 'index'])->name('admin.annonce.index');
 
     // Ajouter des annonces
@@ -91,6 +99,12 @@ Route::middleware('auth', 'can:admin')->group(function () {
 
     // Voir une annonce
     Route::get('/admin/annonce/show/{id}', [AnnonceAdminController::class, 'show'])->name('admin.annonce.show');
+
+    // Afficher les utilisateurs
+    Route::get('/admin/users', [UsersAdminController::class, 'index'])->name('admin.users.index');
+
+    // Afficher les utilisateurs
+    Route::get('/admin/favoris', [FavorisController::class, 'index'])->name('admin.usersFavoris.index');
 });
 
 require __DIR__ . '/auth.php';

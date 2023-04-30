@@ -34,7 +34,7 @@
                             </path>
                         </svg>
                     </div>
-                    <a href="#">
+                    <a href="{{ route('account.favoris.list') }}">
                         <h3 class="mb-2 text-xl font-bold dark:text-white">Mes favoris</h3>
                     </a>
                     <p class="text-gray-500 dark:text-gray-400">Protect your organization, devices and stay compliant
