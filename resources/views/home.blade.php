@@ -9,6 +9,7 @@
                 drive economic growth.</p>
             <div class="flex flex-col mb-8 space-y-4 lg:mb-16 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
             </div>
+
             <form>
                 <label for="default-search"
                     class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Recherche</label>
@@ -28,29 +29,29 @@
                 </div>
             </form>
 
-            <div class="mt-5 flex justify-center max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <a href="{{ route('home') }}" aria-current="page"
-                    class="px-4 py-2 text-sm font-medium text-blue-700 bg-white border border-gray-200  hover:bg-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+            <div class="pt-4 inline-flex rounded-md shadow-sm rounded-l-lg" role="group">
+                <a href="{{ route('home') }}"
+                    class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
                     Toutes les annonces
                 </a>
-                @forelse ($categories as $item)
-                    {{-- @dd($categories) --}}
-
-                    <a href="{{ route('home.tri', ['id' => $item->id]) }}" aria-current="page"
-                        class="px-4 py-2 text-sm font-medium text-blue-700 bg-white border border-gray-200  hover:bg-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+            </div>
+            @forelse ($categories as $item)
+                <div class="pt-4 inline-flex rounded-md shadow-sm rounded-l-lg" role="group">
+                    <a href="{{ route('home.tri', ['id' => $item->id]) }}"
+                        class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
                         {{ $item->nom }}
                     </a>
-                @empty
-                    <p>Il y a aucune catégorie</p>
-                @endforelse
-            </div>
+                </div>
+            @empty
+                <p>Il y a aucune catégorie</p>
+            @endforelse
 
             <div class="mt-5 flex justify-center max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="a">
                     <h5>Annonces récentes</h5>
                 </div>
             </div>
-            
+
             <div class="mt-5 flex justify-center max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
                     @forelse ($annonces as $itemannonces)
@@ -98,6 +99,7 @@
                     @endforelse
                 </div>
             </div>
+
             <div class="mt-5 flex justify-center max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="a">
                     {{ $annonces->links() }}
