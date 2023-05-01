@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use App\Http\Requests\ProfileUpdateRequest;
 
 class ProfileController extends Controller
 {
@@ -57,4 +58,23 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    public function storeAvatar(Request $request)
+    {
+        // Récupérer l'utilisateur actuellement authentifié
+        $user = Auth::user();
+    
+        // Traitement de l'upload de l'image
+        if ($request->hasFile('image')) {
+            // Supprimer l'ancienne image si elle existe
+            Storage::delete($user->avatar);
+    
+            $path = $request->file('image')->store('public/images/avatars');
+            $user->avatar = $path;
+            $request->user()->save();
+        }
+    
+        return redirect()->route('home');
+    }
+    
 }
