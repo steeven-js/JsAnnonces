@@ -63,18 +63,24 @@ class ProfileController extends Controller
     {
         // Récupérer l'utilisateur actuellement authentifié
         $user = Auth::user();
+
+        $user = $request->user();
+    
+        // Vérifier si l'utilisateur a déjà un avatar
+        if ($user->avatar) {
+            // Supprimer l'ancienne image
+            Storage::delete($user->avatar);
+        }
     
         // Traitement de l'upload de l'image
         if ($request->hasFile('image')) {
-            // Supprimer l'ancienne image si elle existe
-            Storage::delete($user->avatar);
-    
             $path = $request->file('image')->store('public/images/avatars');
             $user->avatar = $path;
-            $request->user()->save();
+            $user->save();
         }
     
-        return redirect()->route('home');
+        return redirect()->route('profile.edit');
     }
+    
     
 }
