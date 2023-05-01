@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Favoris;
 use App\Models\Annonces;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -44,8 +45,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function news(): HasMany
+    public function annonces(): HasMany
     {
         return $this->hasMany(Annonces::class);
+    }
+
+    public function favoris(): HasMany
+    {
+        return $this->hasMany(Favoris::class);
     }
 }

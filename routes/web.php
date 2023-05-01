@@ -52,6 +52,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/annonce/edit/{id}', [UserAnnonceController::class, 'update'])->name('account.annonce.edit'); //Je met à jour
 
     // Supprimer des annonces
+    Route::get('/profile/home/annonce/delete/{id}', [HomeController::class, 'deleteFavoris'])->name('account.annonce.home.delete');
+
+    // Supprimer des annonces
     Route::delete('/profile/annonce/delete/{id}', [UserAnnonceController::class, 'delete'])->name('account.annonce.delete');
 
     // Voir une annonce

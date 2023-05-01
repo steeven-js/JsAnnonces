@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Favoris;
 use App\Models\Annonces;
 use App\Models\Categories;
 use Illuminate\Http\Request;
@@ -18,9 +19,13 @@ class HomeController extends Controller
 
         $annonces = Annonces::orderBy('updated_at', 'DESC')->paginate(8);
 
+        $userId = auth()->id();
+        $favoris = Favoris::where('user_id', $userId)->get();
+
         return view('home', Compact(
             'categories',
             'annonces',
+            'favoris',
         ));
     }
 
@@ -51,9 +56,8 @@ class HomeController extends Controller
         if ($id == 0) {
 
             $annonces = Annonces::orderBy('updated_at', 'DESC')->get();
-
-        }else {
-          //  dd($id) ;
+        } else {
+            //  dd($id) ;
             $annonces = Annonces::where('category_id', $id)->orderBy('updated_at', 'DESC')->paginate(5);
         }
 
@@ -82,8 +86,15 @@ class HomeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function deleteFavoris($id)
     {
-        //
+
+        $deleteFavoris = Favoris::findOrFail($id);
+
+        // dd($deleteFavoris);
+
+        $deleteFavoris->delete();
+
+        return redirect()->route('home');
     }
 }
