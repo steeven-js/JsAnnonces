@@ -18,7 +18,7 @@
                     </svg>
                 </button>
                 <a href="{{ route('home') }}" target="_blank" class="flex ml-2 md:mr-24">
-                    <img src="https://flowbite-admin-dashboard.vercel.app/images/logo.svg" class="h-8 mr-3"
+                    <img src="{{ Storage::url(Auth::user()->avatar) }}" class="h-8 mr-3"
                         alt="FlowBite Logo" />
                     <span
                         class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">JSAnnonces</span>

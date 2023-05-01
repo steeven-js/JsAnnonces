@@ -212,7 +212,7 @@
                     <span class="sr-only">Open user menu</span>
                     @if (Auth::check())
                         <img class="w-8 h-8 rounded-full"
-                            src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
+                            src="{{ Storage::url(Auth::user()->avatar) }}" alt="user photo">
                     @else
                         <img class="w-8 h-8 rounded-full" src="storage/images/users/user.png" alt="user photo">
                     @endif
