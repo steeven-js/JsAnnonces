@@ -217,6 +217,8 @@
                         @else
                             <img class="w-8 h-8 rounded-full" src="storage/images/users/user.png" alt="user photo">
                         @endif
+                    @else
+                        <img class="w-8 h-8 rounded-full" src="storage/images/users/user.png" alt="user photo">
                     @endif
                 </button>
                 <!-- Dropdown menu -->
