@@ -57,7 +57,7 @@
                     @forelse ($annonces as $itemannonces)
                         <div
                             class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                            <form method="POST" action="{{ route('account.favoris.ajouter') }}">
+                            <form method="POST" action="{{ route('account.favoris.ajouter', ['id' => $itemannonces->id, 'user_id' => Auth::user()->id]) }}">
                                 @csrf
                                 <input type="hidden" name="annonce_id" value="{{ $itemannonces->id }}">
                                 <button type="submit">

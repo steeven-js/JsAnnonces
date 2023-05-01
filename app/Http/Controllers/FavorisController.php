@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Annonces;
 use App\Models\Favoris;
+use App\Models\Annonces;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FavorisController extends Controller
 {
@@ -43,18 +44,18 @@ class FavorisController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $id, $user_id)
     {
-        $annonce_id = $request->input('annonce_id');
-        $user_id = auth()->id();
+        $id = $request->input('annonce_id');
+        $user_id = Auth::user()->id;
 
         // Vérifier si l'id de l'annonce existe déjà en base de données
-        $existingFavoris = Favoris::where('annonce_id', $annonce_id)->where('user_id', $user_id)->first();
+        $existingFavoris = Favoris::where('annonce_id', $id)->where('user_id', $user_id)->first();
 
         if (!$existingFavoris) {
             // L'id de l'annonce n'existe pas encore en base de données pour cet utilisateur, on peut l'ajouter
             $favoris = new Favoris;
-            $favoris->annonce_id = $annonce_id;
+            $favoris->annonce_id = $id;
             $favoris->user_id = $user_id;
 
             // dd($existingFavoris);
@@ -64,6 +65,8 @@ class FavorisController extends Controller
             // On peut éventuellement retourner un message d'erreur ou rediriger l'utilisateur
             // dd($existingFavoris);
         }
+
+        $favoris->save();
 
         return redirect()->route('home');
     }

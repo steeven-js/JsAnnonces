@@ -52,7 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/annonce/edit/{id}', [UserAnnonceController::class, 'update'])->name('account.annonce.edit'); //Je met à jour
 
     // Supprimer des annonces
-    Route::get('/profile/annonce/delete/{id}', [UserAnnonceController::class, 'delete'])->name('account.annonce.delete');
+    Route::delete('/profile/annonce/delete/{id}', [UserAnnonceController::class, 'delete'])->name('account.annonce.delete');
 
     // Voir une annonce
     Route::get('/profile/annonce/show/{id}', [UserAnnonceController::class, 'show'])->name('account.annonce.show');
@@ -61,8 +61,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/annonce/user/favoris', [FavorisController::class, 'index'])->name('account.favoris.list');
 
     // Ajouter des favoris
-    Route::get('/profile/favoris/add', [FavorisController::class, 'create'])->name('account.favoris.ajouter'); //Je créer
-    Route::post('/profile/favoris/add', [FavorisController::class, 'store'])->name('account.favoris.ajouter'); // j'enregistre
+    Route::get('/profile/favoris/add/{id}/{user_id}', [FavorisController::class, 'create'])->name('account.favoris.ajouter'); //Je créer
+    Route::post('/profile/favoris/add/{id}/{user_id}', [FavorisController::class, 'store'])->name('account.favoris.ajouter'); // j'enregistre
 
     // Supprimer des favoris
     Route::get('/profile/favoris/delete/{id}', [FavorisController::class, 'delete'])->name('account.favoris.delete');
