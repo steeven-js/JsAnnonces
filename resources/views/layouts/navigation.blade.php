@@ -12,8 +12,12 @@
                         xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
                             d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                            clip-rule="evenodd"></path>
-                    </svg> Ajouter une annonce</button>
+                            clip-rule="evenodd">
+                        </path>
+                    </svg> 
+                    <a href="{{ route('account.annonce.ajouter') }}">Ajouter une annonce</a>
+                
+                </button>
                 <button id="toggleSidebarMobileSearch" type="button"
                     class="p-2 text-gray-500 rounded-lg lg:hidden hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                     <span class="sr-only">Search</span>
