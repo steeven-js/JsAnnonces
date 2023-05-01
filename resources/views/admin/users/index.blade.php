@@ -206,6 +206,25 @@
                                         </div>
                                     </td>
                                     <td class="p-4 space-x-2 whitespace-nowrap">
+                                        <form action="{{ route('profile.update-statut', ['id' => $user->id]) }}" method="POST" class="flex justify-center items-center">
+                                            @csrf
+                                            <div class="form-group">
+                                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                                    <label
+                                                        class="btn btn-secondary {{ $user->admin == 0 ? 'active' : '' }}">
+                                                        <input type="radio" name="admin" id="option1"
+                                                            value="0" {{ $user->admin == 0 ? 'checked' : '' }}> User
+                                                    </label>
+                                                    <label
+                                                        class="btn btn-secondary {{ $user->admin == 1 ? 'active' : '' }}">
+                                                        <input type="radio" name="admin" id="option2"
+                                                            value="1" {{ $user->admin == 1 ? 'checked' : '' }}> Admin
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <button type="submit" class="ml-4 text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Update</button>
+                                        </form>
 
                                     </td>
                                 </tr>

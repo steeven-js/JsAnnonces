@@ -105,6 +105,8 @@ Route::middleware('auth', 'can:admin')->group(function () {
     // Afficher les utilisateurs
     Route::get('/admin/users', [UsersAdminController::class, 'index'])->name('admin.users.index');
 
+    Route::post('/admin/users/updateSatut/{id}', [UsersAdminController::class, 'updateStatut'])->name('profile.update-statut');
+
     // Afficher les utilisateurs
     Route::get('/admin/favoris', [FavorisController::class, 'index'])->name('admin.usersFavoris.index');
 });

@@ -14,9 +14,9 @@
                             d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
                             clip-rule="evenodd">
                         </path>
-                    </svg> 
+                    </svg>
                     <a href="{{ route('account.annonce.ajouter') }}">Ajouter une annonce</a>
-                
+
                 </button>
                 <button id="toggleSidebarMobileSearch" type="button"
                     class="p-2 text-gray-500 rounded-lg lg:hidden hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
@@ -212,8 +212,8 @@
                     <span class="sr-only">Open user menu</span>
                     @if (Auth::check())
                         @if (isset(Auth::user()->avatar))
-                            <img class="w-8 h-8 rounded-full"
-                            src="{{ Storage::url(Auth::user()->avatar) }}" alt="user photo">
+                            <img class="w-8 h-8 rounded-full" src="{{ Storage::url(Auth::user()->avatar) }}"
+                                alt="user photo">
                         @else
                             <img class="w-8 h-8 rounded-full" src="storage/images/users/user.png" alt="user photo">
                         @endif
@@ -347,7 +347,7 @@
                             {{ __('Dashboard') }}
                         </x-nav-link>
                     @endif
-                @endauth    
+                @endauth
                 <li>
                     <a href="#"
                         class="block py-2 pl-3 pr-4 text-blue-600 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0 dark:text-blue-500 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700"

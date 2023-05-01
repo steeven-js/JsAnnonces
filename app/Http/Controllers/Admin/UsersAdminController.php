@@ -63,6 +63,19 @@ class UsersAdminController extends Controller
         //
     }
 
+    public function updateStatut(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        // dd($request);
+
+        $user->admin = $request->input('admin');
+
+        $user->save();
+
+        return redirect()->route('admin.users.index');
+    }
+
     /**
      * Remove the specified resource from storage.
      */
