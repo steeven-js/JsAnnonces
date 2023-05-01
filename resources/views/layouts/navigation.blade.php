@@ -211,10 +211,12 @@
                     id="user-menu-button" aria-expanded="false" data-dropdown-toggle="dropdown">
                     <span class="sr-only">Open user menu</span>
                     @if (Auth::check())
-                        <img class="w-8 h-8 rounded-full"
+                        @if (isset(Auth::user()->avatar))
+                            <img class="w-8 h-8 rounded-full"
                             src="{{ Storage::url(Auth::user()->avatar) }}" alt="user photo">
-                    @else
-                        <img class="w-8 h-8 rounded-full" src="storage/images/users/user.png" alt="user photo">
+                        @else
+                            <img class="w-8 h-8 rounded-full" src="storage/images/users/user.png" alt="user photo">
+                        @endif
                     @endif
                 </button>
                 <!-- Dropdown menu -->
