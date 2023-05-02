@@ -11,7 +11,7 @@ class Categories extends Model
 {
     use HasFactory;
 
-    public function news(): HasMany
+    public function annonce(): HasMany
     {
         return $this->hasMany(Annonces::class);
     }

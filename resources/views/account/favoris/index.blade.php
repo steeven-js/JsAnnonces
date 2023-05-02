@@ -61,7 +61,7 @@
                                 <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
                                     src="{{ Storage::url($item->annonce->image) }}" alt="">
                                 <div class="flex flex-col justify-between p-4 leading-normal">
-                                    <p class="">{{ $item->annonce->user->name }}</p>
+                                    <p class="text-sm font-semibold tracking-tight text-gray-900 dark:text-white">{{ $item->annonce->user->name }}</p>
                                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                                         {{ Str::limit($item->annonce->nom, 30) }}
                                     </h5>

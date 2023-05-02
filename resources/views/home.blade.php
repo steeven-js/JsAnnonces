@@ -48,17 +48,18 @@
 
             <div class="mt-5 flex justify-center max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="a">
-                    <h5>Annonces récentes</h5>
+                    <h5 class="text-sm font-semibold tracking-tight text-gray-900 dark:text-white">Annonces récentes</h5>
                 </div>
             </div>
 
             <div class="mt-5 flex justify-center max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
                     @forelse ($annonces as $itemannonces)
+                    {{-- @dump($itemannonces->category->nom) --}}
                         <div
                             class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 relative">
                             @if (auth()->check() && auth()->user()->favoris->contains('annonce_id', $itemannonces->id))
-                                <a href="{{ route('account.favoris.list') }}"><p>L'annonce est dans vos favoris</p></a>
+                                <a href="{{ route('account.favoris.list') }}"><p class="text-sm font-semibold tracking-tight text-gray-900 dark:text-white">L'annonce est dans vos favoris</p></a>
                             @else
                                 @if (auth()->check())
                                     <form method="POST"
@@ -75,7 +76,8 @@
                                     </form>
                                 @endif
                             @endif
-
+                            
+                            <p class="text-sm font-semibold tracking-tight text-gray-900 dark:text-white">{{$itemannonces->category->nom}}</p>
 
                             <a href="#">
                                 <img class="p-8 rounded-t-lg" src="{{ Storage::url($itemannonces->image) }}"
