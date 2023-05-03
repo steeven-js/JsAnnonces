@@ -32,11 +32,9 @@ Route::get('/annonce/details/{id}', [AnnonceController::class, 'show'])->name('a
 
 // Filtre les annonces par catégories
 Route::get('/home/category/tri/{id}', [HomeController::class, 'show'])->name('home.tri');
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
+/**
+ * User
+ */
 Route::middleware('auth')->group(function () {
     Route::get('/profile/account', [UserAnnonceController::class, 'index'])->name('account.index');
 
@@ -51,17 +49,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/annonce/edit/{id}', [UserAnnonceController::class, 'edit'])->name('account.annonce.edit'); //Je récupère
     Route::post('/profile/annonce/edit/{id}', [UserAnnonceController::class, 'update'])->name('account.annonce.edit'); //Je met à jour
 
-    // Supprimer des annonces
-    Route::get('/profile/home/annonce/delete/{id}', [HomeController::class, 'deleteFavoris'])->name('account.annonce.home.delete');
-
-    // Supprimer des annonces
+    // Supprimer une annonce
     Route::delete('/profile/annonce/delete/{id}', [UserAnnonceController::class, 'delete'])->name('account.annonce.delete');
 
     // Voir une annonce
     Route::get('/profile/annonce/show/{id}', [UserAnnonceController::class, 'show'])->name('account.annonce.show');
 
-    // Voir un favoris
-    Route::get('/profile/annonce/user/favoris', [FavorisController::class, 'index'])->name('account.favoris.list');
+
 
     // Ajouter des favoris
     Route::get('/profile/favoris/add/{id}/{user_id}', [FavorisController::class, 'create'])->name('account.favoris.ajouter'); //Je créer
@@ -75,8 +69,20 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::post('/profile/update-avatar', [ProfileController::class, 'storeAvatar'])->name('profile.update-avatar');
+
+    // COEUR AJOUT SUPRESSION 
+    Route::get('/profile/favoris/add/{id}', [FavorisController::class, 'add'])->name('profile.favoris.add');
+
+    // Supprimer un favoris
+    Route::get('/profile/favoris/delete/{id}', [FavorisController::class, 'delete'])->name('account.favoris.delete');
+
+    // Voir un favoris
+    Route::get('/profile/annonce/user/favoris', [FavorisController::class, 'index'])->name('account.favoris.list');
 });
 
+/**
+ * Admin
+ */
 Route::middleware('auth', 'can:admin')->group(function () {
     Route::get('/admin', [DashboardController::class, 'index'])->name('admin.home');
 

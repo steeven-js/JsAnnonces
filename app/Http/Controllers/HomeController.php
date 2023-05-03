@@ -6,6 +6,7 @@ use App\Models\Favoris;
 use App\Models\Annonces;
 use App\Models\Categories;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -19,7 +20,7 @@ class HomeController extends Controller
 
         $annonces = Annonces::orderBy('updated_at', 'DESC')->paginate(8);
 
-        $userId = auth()->id();
+        $userId = Auth::user()->id;
         $favoris = Favoris::where('user_id', $userId)->get();
 
         return view('home', Compact(
@@ -27,22 +28,6 @@ class HomeController extends Controller
             'annonces',
             'favoris',
         ));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -67,34 +52,4 @@ class HomeController extends Controller
         ));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function deleteFavoris($id)
-    {
-
-        $deleteFavoris = Favoris::findOrFail($id);
-
-        // dd($deleteFavoris);
-
-        $deleteFavoris->delete();
-
-        return redirect()->route('home');
-    }
 }

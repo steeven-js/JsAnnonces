@@ -4,95 +4,61 @@ namespace App\Http\Controllers;
 
 use App\Models\Favoris;
 use App\Models\Annonces;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class FavorisController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Cette syntaxe est utilisée pour spécifier les conditions de jointure lorsqu'on utilise la méthode join dans Laravel.
+
+    // Voici comment la syntaxe est interprétée :
+
+    // Le premier paramètre (favoris) est le nom de la table avec laquelle on veut effectuer la jointure.
+    // Le deuxième paramètre (annonces.id) spécifie la colonne de la première table (annonces) à utiliser pour la jointure.
+    // Le troisième paramètre (=) spécifie le type de jointure à effectuer, dans ce cas une jointure équijointe (également appelée jointure interne) qui ne renverra que les enregistrements où les valeurs dans les colonnes de jointure sont identiques.
+    // Le quatrième paramètre (favoris.annonce_id) spécifie la colonne de la deuxième table (favoris) à utiliser pour la jointure.
+    // Ainsi, la syntaxe 'annonces.id', '=', 'favoris.annonce_id' indique que nous voulons joindre les enregistrements des tables annonces et favoris où les valeurs de la colonne id de annonces et la colonne annonce_id de favoris sont identiques.
+
     public function index()
     {
-        //Voir tous les favoris
+        //Obtenir l'ID de l'utilisateur connecté
+        $userId = Auth::user()->id;
 
-        $userId = auth()->id();
-        $favoris = Favoris::where('user_id', $userId)->get();
+        //Obtenir les annonces correspondant aux éléments favoris de l'utilisateur connecté en utilisant une requête SQL JOIN
+        $favoris = Annonces::join('favoris', 'annonces.id', '=', 'favoris.annonce_id') //Jointure entre la table "annonces" et la table "favoris" en utilisant les colonnes "id" et "annonce_id"
+            ->where('favoris.user_id', $userId) //Filtrer les résultats par l'ID de l'utilisateur connecté
+            ->get(); //Exécuter la requête SQL et récupérer les résultats
 
-        $annonces = [];
-
-        foreach ($favoris as $favori) {
-            $annonceId = $favori->annonce_id;
-            $annonce = Annonces::findOrFail($annonceId);
-            $annonces[] = $annonce;
-        }
-
-        // dd($annonces);
-
-        return view('account.favoris.index', compact('annonces', 'favoris'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-
+        //Envoyer les favoris à la vue
+        return view('account.favoris.index', compact('favoris'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $id, $user_id)
+    public function add($id = 0)
     {
-        $id = $request->input('annonce_id');
-        $user_id = Auth::user()->id;
 
-        // Vérifier si l'id de l'annonce existe déjà en base de données
-        $existingFavoris = Favoris::where('annonce_id', $id)->where('user_id', $user_id)->first();
+        // Vérifier si l'élément avec l'ID donné est déjà dans les favoris de l'utilisateur actuellement connecté
+        $isFavoris = Favoris::where('annonce_id', $id)->where('user_id', Auth::user()->id)->first();
 
-        if (!$existingFavoris) {
-            // L'id de l'annonce n'existe pas encore en base de données pour cet utilisateur, on peut l'ajouter
-            $favoris = new Favoris;
-            $favoris->annonce_id = $id;
-            $favoris->user_id = $user_id;
+        // Si l'élément n'est pas dans les favoris, l'ajouter
+        if (empty($isFavoris)) {
+            $addFavoris = new Favoris;
 
-            // dd($existingFavoris);
-            // $favoris->save();
-        } else {
-            // L'id de l'annonce existe déjà en base de données pour cet utilisateur, on ne peut pas l'ajouter à nouveau
-            // On peut éventuellement retourner un message d'erreur ou rediriger l'utilisateur
-            // dd($existingFavoris);
+            $addFavoris->annonce_id = $id;
+            $addFavoris->user_id = Auth::user()->id;
+
+            $addFavoris->save();
+        }
+        // Si l'élément est déjà dans les favoris, le supprimer
+        else {
+
+            Favoris::where('annonce_id', $id)->where('user_id', Auth::user()->id)->delete();
+
         }
 
-        $favoris->save();
-
-        return redirect()->route('home');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+        // Rediriger l'utilisateur vers la page précédente
+        return back();
     }
 
     /**

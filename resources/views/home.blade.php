@@ -48,38 +48,50 @@
 
             <div class="mt-5 flex justify-center max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="a">
-                    <h5 class="text-sm font-semibold tracking-tight text-gray-900 dark:text-white">Annonces récentes</h5>
+                    <h5 class="text-sm font-semibold tracking-tight text-gray-900 dark:text-white">Annonces récentes
+                    </h5>
                 </div>
             </div>
 
             <div class="mt-5 flex justify-center max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
                     @forelse ($annonces as $itemannonces)
-                    {{-- @dump($itemannonces->category->nom) --}}
+                        {{-- @dump($itemannonces->category->nom) --}}
                         <div
                             class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 relative">
-                            @if (auth()->check() && auth()->user()->favoris->contains('annonce_id', $itemannonces->id))
-                                <a href="{{ route('account.favoris.list') }}"><p class="text-sm font-semibold tracking-tight text-gray-900 dark:text-white">L'annonce est dans vos favoris</p></a>
+                            @if (auth()->check() &&
+                                    auth()->user()->favoris->contains('annonce_id', $itemannonces->id))
+                                <a href="{{ route('profile.favoris.add', ['id' => $itemannonces->id]) }}"
+                                    class="!absolute top-4 right-4 h-8 max-h-[32px] w-8 max-w-[32px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase text-red-500 transition-all hover:bg-red-500/10 active:bg-red-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                    type="button" data-ripple-dark="true">
+                                    <span class="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 transform">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                            aria-hidden="true" class="h-6 w-6">
+                                            <path
+                                                d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z">
+                                            </path>
+                                        </svg>
+                                    </span>
+                                </a>
                             @else
-                                @if (auth()->check())
-                                    <form method="POST"
-                                        action="{{ route('account.favoris.ajouter', ['id' => $itemannonces->id, 'user_id' => Auth::user()->id]) }}">
-                                        @csrf
-                                        <input type="hidden" name="annonce_id" value="{{ $itemannonces->id }}">
-                                        <button type="submit" class="absolute top-0 right-0 px-4">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                                            </svg>
-                                        </button>
-                                    </form>
-                                @endif
+                                <a href="{{ route('profile.favoris.add', ['id' => $itemannonces->id]) }}"
+                                    class="!absolute top-4 right-4 h-8 max-h-[32px] w-8 max-w-[32px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase text-white-500 transition-all hover:bg-white-500/10 active:bg-white-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                    type="button" data-ripple-dark="true">
+                                    <span class="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 transform">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                            aria-hidden="true" class="h-6 w-6">
+                                            <path
+                                                d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z">
+                                            </path>
+                                        </svg>
+                                    </span>
+                                </a>
                             @endif
-                            
-                            <p class="text-sm font-semibold tracking-tight text-gray-900 dark:text-white">{{$itemannonces->category->nom}}</p>
 
-                            <a href="#">
+                            <p class="text-sm font-semibold tracking-tight text-gray-900 dark:text-white">
+                                {{ $itemannonces->category->nom }}</p>
+
+                            <a href="{{ route('annonce.show', ['id' => $itemannonces->id]) }}">
                                 <img class="p-8 rounded-t-lg" src="{{ Storage::url($itemannonces->image) }}"
                                     alt="{{ $itemannonces->nom }}" />
                             </a>
@@ -115,6 +127,7 @@
                     {{ $annonces->links() }}
                 </div>
             </div>
+
         </div>
     </section>
 </x-app-layout>
